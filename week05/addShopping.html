@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>增加商品</title>
+<script type="text/javascript">
+var count = 0;
+	function addOrder(){
+		var table = document.getElementById("goods");
+		var index = table.rows.length - 1;
+		var newRow = table.insertRow(index);  // 插入一行到表格倒数第二行，如果是最后一行，index = -1
+		newRow.id = "row" + count;
+		var col1 = newRow.insertCell(0);
+		col1.innerHTML = "<input type=\"text\" name=\"mingcheng\" />";
+		var col2 = newRow.insertCell(1);
+		col2.innerHTML = "<input type=\"text\" name=\"num\" />";
+		var col3 = newRow.insertCell(2);
+		col3.innerHTML = "<input type=\"text\" name=\"price\" value=\"&yen;\" />";
+		var col4 = newRow.insertCell(3);
+		col4.innerHTML = "<input type=\"button\" name=\"delete\" value=\"删除\" onclick=\"del(\'row"+ count + "\')\" />&nbsp;<input type=\"button\" name=\"sure\" value=\"确定\" onclick=\"save(\'row"+ count + "\')\" />";
+		count++;
+
+	}
+	function del(id){
+		var row = document.getElementById(id);
+		document.getElementById("goods").lastChild.removeChild(row);  // lastChild获得<tbody>节点
+	}
+	function save(id){
+		var row = document.getElementById(id);
+		for( var i = 0; i < 3; i++ ){
+			row.cells[i].firstChild.readOnly = true;
+			row.cells[i].firstChild.style.border = "none";
+		}
+		row.cells[3].lastChild.name = "alter";
+		row.cells[3].lastChild.value = "修改";
+		row.cells[3].lastChild.onclick = function(){ alter(id); };
+	}
+	function alter(id){
+		var row = document.getElementById(id);
+		for( var i = 0; i < 3; i++ ){
+			row.cells[i].firstChild.readOnly = false;
+			row.cells[i].firstChild.style.border = "1px solid #ccc";
+		}
+		row.cells[3].lastChild.name = "sure";
+		row.cells[3].lastChild.value = "确定";
+		row.cells[3].lastChild.onclick = function(){ save(id); };
+	}
+	
+	function over(){
+		var allTd = document.getElementsByTagName("td");
+		for( var i = 0 ; i < allTd.length; i++ ){
+			allTd[i].onmouseover = function(){
+				this.className = "over";
+			}
+		}
+	}
+	function out(){
+		var allTd = document.getElementsByTagName("td");
+		for( var i = 0 ; i < allTd.length; i++ ){
+			allTd[i].onmouseout = function(){
+				this.className = "";
+			}
+		}
+	}
+	function checkNum(value){
+		var reg = /^\d{1,8}&/;
+		if( reg.test(value)==false)
+			alert("格式错误");
+	}
+
+	window.onload = function(){over(); out();}
+</script>
+<style type="text/css">
+	#container{
+		width:800px;
+		margin:0px auto;
+	}
+	.title{
+		text-align: center;
+		font-weight: bold;
+
+	}
+	#goods td{
+		text-align: center;
+	}
+	.over{
+		background-color: #ccc;
+		cursor: pointer; // 用hand不行
+	}
+</style>
+</head>
+<body>
+<div id="container">
+	<table id="goods" cellpadding="0" cellspacing="0" border="1px solid #ccc" width="800px">
+		<tr class="title">
+			<td>商品名称</td>
+			<td>数量</td>
+			<td>单价</td>
+			<td>操作</td>
+		</tr>
+		
+		<tr>
+			<td colspan="4"><input type="button" value="增加订单" name="addOrder" id="addOrderId" onclick="addOrder()"></td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>
