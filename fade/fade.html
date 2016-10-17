@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片淡入淡出效果</title>
+</head>
+<script type="text/javascript">
+window.onload = function(){
+	// 定义一个底层共用类
+	var iBase = {
+		id: function(name){
+			return document.getElementById(name);
+		},  // 少一个逗号都不行
+		setOpacity: function(elem, alpha){
+			elem.filter ? elem.style.filter = 'alpha(opacity=' + alpha + ')' : elem.style.opacity = alpha / 100; // opacity从0.0~1.0
+		}   // filter=alpha(opacity=value) 针对ie浏览器， opacity=value(0.0~1.0) 针对主流浏览器
+	};
+	function fadeIn(elem, speed, opacity){
+		speed = speed || 20;
+		opacity = opacity || 100;
+		elem.style.display = "block";
+		var val = 0;  // 初始不透明值设置为0
+		(function(){
+			iBase.setOpacity(elem, val);  
+			val += 1; // 不透明值以5的速度递增
+			if( val < opacity ){
+				setTimeout(arguments.callee, speed);  // arguments.callee 表示包含当前正在执行的函数
+			}
+		})();
+	}
+	function fadeOut(elem, speed, opacity){
+		speed = speed || 20; 
+		opacity = opacity || 0;
+		elem.style.display = "block";
+		var val = 100;  
+		(function(){
+			iBase.setOpacity(elem, val);
+			val -= 1; 
+			if( val >= opacity ){
+				setTimeout(arguments.callee, speed);
+			}else{
+				elem.style.display = "none";
+			}
+		})();
+	}
+	iBase.id("fadeIn").onclick = function(){
+		fadeIn(iBase.id("pic"), 100);
+	};
+	iBase.id("fadeOut").onclick = function(){
+		fadeOut(iBase.id("pic"), 50);
+	};
+};
+</script>
+<body>
+	<div id="container">
+		<img id="pic" src="images/fade1.png">
+		<p><input type="button" id="fadeIn" name="fadeIn" value="图片淡入">
+			<input type="button" id="fadeOut" name="fadeOut" value="图片淡出"></p>
+
+	</div>
+</body>
+</html>

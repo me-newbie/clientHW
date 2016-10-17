@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>显示和隐藏品牌</title>
+</head>
+<style type="text/css">
+	.cl{clear: both;}
+	#container{margin:0px auto; width: 800px; }
+	#container ul li{float: left; list-style: none; margin-right: 40px; margin-top: 10px;}
+	#container ul li a{text-decoration: none; }
+	#container ul li a:hover{color:red;}
+	.promoted{font-weight: bold; background-color: #ccc;}
+	.showmore a{text-decoration: none; color: blue;}
+</style>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var $category = $('ul li:gt(5):not(:last)');
+		$category.hide();
+
+		var $toggleBtn = $("div .showmore > a");
+		$toggleBtn.click(function(){
+			if( $category.is(":visible")){
+				$category.hide();
+				$('.showmore a span').css("color", "blue").text("显示全部品牌");
+				$('ul li').removeClass("promoted");
+				return false;
+			}else{
+				$category.show();
+				$('.showmore a span').css("color", "green").text("精简显示品牌");
+				$("ul li:contains('佳能'),ul li:contains('尼康'),ul li:contains('奥林匹斯')").addClass("promoted");
+				return false;
+			}
+		});
+	});
+</script>
+<body>
+	<div id="container">
+		<div class="head"><h3>商品筛选：<span>热卖相机</span></h3></div>
+		<ul>
+			<li><a href="#">佳能</a></li>
+			<li><a href="#">索尼</a></li>
+			<li><a href="#">三星</a></li>
+			<li><a href="#">尼康</a></li>
+			<li><a href="#">松下</a></li>
+			<li><a href="#">卡西欧</a></li>
+			<li><a href="#">富士</a></li>
+			<li><a href="#">柯达</a></li>
+			<li><a href="#">宾得</a></li>
+			<li><a href="#">理光</a></li>
+			<li><a href="#">奥林匹斯</a></li>
+			<li><a href="#">明基</a></li>
+			<li><a href="#">爱国者</a></li>
+			<li><a href="#">其它品牌相机</a></li>
+		</ul>
+		<div class="cl"></div>
+		<div class="showmore"><a href="#"><span>显示全部品牌</span></a></div>
+	</div>
+</body>
+</html>
